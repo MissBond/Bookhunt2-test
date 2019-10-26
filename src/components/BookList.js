@@ -7,7 +7,7 @@ const BookList = (props) => {
       {props.filter && props.filter.map((book, i) => (
           <ul key={i}>
             <li id='book-list-items'>
-              <Link to={`/book/${book.title}`}><h2 onClick={() => props.getSelectedBook(book.edition_key[0])}>{book.title}</h2></Link>
+              <Link to={`/book/${book.cover_edition_key}`}>{book.title}</Link>
               <p>{book.title}</p>
               <p>{book.author_name && book.author_name[0]}</p>
               <p>First Year Published: {book.first_publish_year}</p>

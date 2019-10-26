@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import SearchBar from './SearchBar';
 import BookList from './BookList'
 import Sort from './Sort';
@@ -8,12 +9,13 @@ import BookDetailPage from './BookDetailPage';
 class Home extends Component {
   state = {
     books: [],
-    searchTerm: '',
-    filterTerm: '',
     book: {},
-    pizza: ''
+    searchTerm: '',
+    filterTerm: ''
   }
 
+  //Get and Search books
+  //NOTE: ou don't have to use componentDidMount, mostly for if listings appear onload, without search bar
   componentDidMount = () => {
     const url = `https://openlibrary.org/search.json?q=${this.state.searchTerm}`;
 
@@ -26,6 +28,11 @@ class Home extends Component {
       .catch(err => err)
   }
 
+  getBooks = e => {
+    e.preventDefault();
+    this.componentDidMount()
+  }
+
   handleSearchChange = e => {
     this.setState({searchTerm: e.currentTarget.value})
   }
@@ -34,10 +41,7 @@ class Home extends Component {
     this.setState({filterTerm: e.currentTarget.value})
   }
 
-  getBooks = e => {
-    e.preventDefault();
-    this.componentDidMount()
-  }
+
 
   getSelectedBook = bookId => {
     const url = `https://openlibrary.org/api/books?bibkeys=OLID:${bookId}&jscmd=details&format=json`
@@ -117,22 +121,25 @@ class Home extends Component {
   }
 
   render () {
-    const {books, searchTerm, filterTerm, book, pizza} = this.state
+    const {books, searchTerm, filterTerm, book} = this.state
     const filter = this.filter();
     // console.log('filterFunc', filter)
     console.log('books', books)
-    console.log('filter', filter)
-    console.log('pizCza', pizza)
+
 
 
     return (
-      <div>
-        <SearchBar getBooks={this.getBooks} searchTerm={searchTerm} handleSearchChange={this.handleSearchChange} />
-        <Filter handleFilterChange={this.handleFilterChange} filterTerm={filterTerm}/>
-        <Sort sort={this.sort}/>
-        <BookList books={books} filter={filter} getSelectedBook={this.getSelectedBook}/>
-        <BookDetailPage book={book} books={books}/>
-      </div>
+      <Router>
+        <div>
+          <SearchBar getBooks={this.getBooks} searchTerm={searchTerm} handleSearchChange={this.handleSearchChange} />
+          <Filter handleFilterChange={this.handleFilterChange} filterTerm={filterTerm}/>
+          <Sort sort={this.sort}/>
+          <BookList books={books} filter={filter} />
+          <Route exact path='/book/:id' render={props => (
+            <BookDetailPage book={book} books={books} getSelectedBook={this.getSelectedBook}/>
+        )}/>
+        </div>
+      </Router>
 
     )
   }

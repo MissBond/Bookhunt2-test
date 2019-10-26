@@ -1,13 +1,19 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react'
 
-const BookDetailPage = (props) => {
-  const {book, books} = props;
-  console.log('book', book);
-  console.log('books', books);
-  return (
-    <h1>hello world</h1>
-  )
+export class BookDetailPage extends Component {
+  // componentDidMount() {
+  //   this.props.getSelectedBook(this.props.match.params.id)
+  // }
+  render() {
+    console.log('boook!!', this.props.book);
+    console.log('paramsss', this.props.match.params)
+    return (
+      <div>
+        howdy
+      </div>
+    )
+  }
 }
 
-export default BookDetailPage;
+export default BookDetailPage
+
