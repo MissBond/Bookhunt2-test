@@ -1,14 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Home from './Home';
-import BookDetailPage from './BookDetailPage';
-
-const App = () => (
-  <Router>
-    <Switch>
-      <Route exact path='/' component={Home} />
-
-    </Switch>
-  </Router>
-)
+import '../App.css';
+const App = () => <Home/>
 export default App;
